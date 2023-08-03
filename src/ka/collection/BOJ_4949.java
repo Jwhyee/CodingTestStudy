@@ -1,14 +1,12 @@
 package ka.collection;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Stack;
 
 /**
  * 문제 이름(난이도) : 균형잡힌 세상(SIL4)
- * 시간 : 312 ms
- * 메모리 : 20128 MB
+ * 시간 : 204 ms
+ * 메모리 : 18392 KB
  * 링크 : https://www.acmicpc.net/problem/4949
  */
 public class BOJ_4949 {
@@ -49,6 +47,7 @@ public class BOJ_4949 {
     public static void main(String[] args) throws IOException {
         // 버퍼리더를 통해 입력 받음
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         // 무한 반복 진행
         while (true) {
@@ -59,10 +58,13 @@ public class BOJ_4949 {
             }
             // 입력된 문자열이 균형잡혀있는지 확인
             if (isBalanceString(s)) {
-                System.out.println("yes");
+                bw.append("yes\n");
             } else {
-                System.out.println("no");
+                bw.append("no\n");
             }
         }
+        bw.flush();
+        br.close();
+        bw.close();
     }
 }
