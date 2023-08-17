@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * 링크 : https://school.programmers.co.kr/learn/courses/30/lessons/1829
  */
 public class PRG_1829 {
-    int numberOfArea, maxSizeOfOneArea, currentColor;
+    int areaSize, areaMaxSize, currentColor;
     int H, W;
     boolean[][] visited;
     int[] dx = {1, 0, -1, 0};
@@ -40,26 +40,26 @@ public class PRG_1829 {
                 if (!visited[i][j] && map[i][j] != 0) {
                     // 현재 색상 복사 및 영역 크기 초기화
                     currentColor = picture[i][j];
-                    numberOfArea = 0;
+                    areaSize = 0;
 
                     // 한 좌표를 기준으로 어느정도 깊이가 있는지 확인해야하기 때문에 DFS 사용
                     dfs(i, j);
 
                     // 리스트에 영역 크기 저장
-                    areaList.add(numberOfArea);
+                    areaList.add(areaSize);
 
                     // 최대 영역 계산
-                    maxSizeOfOneArea = Math.max(maxSizeOfOneArea, numberOfArea);
+                    areaMaxSize = Math.max(areaMaxSize, areaSize);
                 }
             }
         }
 
-        return new int[]{areaList.size(), maxSizeOfOneArea};
+        return new int[]{areaList.size(), areaMaxSize};
     }
 
     public void dfs(int y, int x) {
         visited[y][x] = true;
-        numberOfArea++;
+        areaSize++;
 
         for (int i = 0; i < 4; i++) {
             int nx = x + dx[i];
