@@ -10,8 +10,8 @@ import java.util.Stack;
 
 /**
  * 문제 이름(난이도) : 팰린드롬 만들기(실버3)
- * 시간 : 136 ms
- * 메모리 : 14372 KB
+ * 시간 : 80 ms
+ * 메모리 : 11776 KB
  * 링크 : https://www.acmicpc.net/problem/1213
  */
 public class BOJ_1213 {
