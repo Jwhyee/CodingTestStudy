@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * 문제 이름(난이도) : 숫자 야구(실버3)
- * 시간 : 280 ms
- * 메모리 : 27108 KB
+ * 시간 : 220 ms
+ * 메모리 : 24548 KB
  * 링크 : https://www.acmicpc.net/problem/2503
  */
 public class BOJ_2503 {
@@ -27,12 +28,12 @@ public class BOJ_2503 {
         N = Integer.parseInt(br.readLine());
 
         int cnt = 0;
-
+        StringTokenizer st;
         for (int i = 0; i < N; i++) {
-            String[] split = br.readLine().split(" ");
-            int number = Integer.parseInt(split[0]);
-            int strike = Integer.parseInt(split[1]);
-            int ball = Integer.parseInt(split[2]);
+            st = new StringTokenizer(br.readLine());
+            int number = Integer.parseInt(st.nextToken());
+            int strike = Integer.parseInt(st.nextToken());
+            int ball = Integer.parseInt(st.nextToken());
             list.add(new Baseball(number, strike, ball));
         }
 
