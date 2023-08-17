@@ -1,14 +1,17 @@
 package ka.search;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.Arrays;
+import java.util.StringTokenizer;
 
 /**
  * 문제 이름(난이도) : 통나무 건너뛰기(실버1)
- * 시간 : 572 ms
- * 메모리 : 53088 KB
+ * 시간 : 440 ms
+ * 메모리 : 49916 KB
  * 링크 : https://www.acmicpc.net/problem/11497
  */
 public class BOJ_11497 {
@@ -16,7 +19,8 @@ public class BOJ_11497 {
     static int N, T;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st;
 
         // 테스트 케이스 수
         T = Integer.parseInt(br.readLine());
@@ -27,19 +31,20 @@ public class BOJ_11497 {
             N = Integer.parseInt(br.readLine());
 
             // 통나무 높이 배열
-            array = Arrays.stream(br.readLine().split(" "))
-                    .mapToInt(Integer::parseInt)
-                    .toArray();
+            array = new int[N];
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < N; j++) {
+                array[j] = Integer.parseInt(st.nextToken());
+            }
 
             // 배열 정렬
             Arrays.sort(array);
-
-            sb.append(checkLevel()).append("\n");
+            bw.append(checkLevel() + "\n");
         }
 
+        bw.flush();
         br.close();
-
-        System.out.println(sb);
+        bw.close();
     }
 
     private static int checkLevel() {
