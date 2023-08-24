@@ -3,15 +3,12 @@ package ka.two_pointer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 /**
  * 문제 이름(난이도) : 회전초밥(골드4)
  * 시간 : 504 ms
- * 메모리 : 168552 KB
+ * 메모리 : 168,552 KB
  * 링크 : https://www.acmicpc.net/problem/15961
  */
 public class BOJ_15961 {

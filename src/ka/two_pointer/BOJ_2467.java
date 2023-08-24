@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 /**
  * 문제 이름(난이도) : 용액(골드5)
  * 시간 : 272 ms
- * 메모리 : 31868 KB
+ * 메모리 : 31292 KB
  * 링크 : https://www.acmicpc.net/problem/2467
  */
 public class BOJ_2467 {
