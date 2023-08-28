@@ -85,6 +85,7 @@ public class BOJ_14891 {
 
         // 만약 1번이 시계 방향으로 돌고, 1, 2, 3번이 돌아야할 경우
         // 1번은 시계 방향, 2번은 반시계 방향, 3번은 시계 방향으로 돌아야함
+        // 때문에 leftDir(rightDir) *= -1 을 해서 방향을 계속 바꿔줘야함
 
         // 왼쪽으로 연결된 톱니 찾기
         int leftDir = dir;
@@ -110,11 +111,14 @@ public class BOJ_14891 {
 
     private static void findTurnWheel(int num) {
         isTurn = new boolean[4];
-        // 돌아야하는 톱니 기준으로 좌 우 확인
+        // 현재 톱니의 동쪽, 서쪽 극 확인
         int curWest = wheel[num][6];
         int curEast = wheel[num][2];
         isTurn[num] = true;
 
+        // 현재 톱니를 기준으로 왼쪽으로 탐색
+        // 만약 현재 톱니의 서쪽과 다음 톱니의 동쪽 극이 서로 다르다면,
+        // 다음 톱니를 돌려야할 톱니로 지정
         for (int i = num; i > 0; i--) {
             int nextWest = wheel[i - 1][6];
             int nextEast = wheel[i - 1][2];
@@ -123,6 +127,7 @@ public class BOJ_14891 {
             curWest = nextWest;
         }
 
+        // 오른쪽도 돌려야하기 때문에 값 초기화
         curWest = wheel[num][6];
         curEast = wheel[num][2];
 
@@ -136,20 +141,26 @@ public class BOJ_14891 {
     }
 
     private static void turnWheel(int num, int dir) {
+        // 배열 참조를 복사해서 진행
         int[] numberOfWheel = wheel[num];
+        // 시계 방향
         if (dir == 1) {
+            // 이전 값(끝)과 현재 값(처음)을 미리 저장 후 변경
             int prevVal = numberOfWheel[7], curVal = numberOfWheel[0];
-            // 시계 방향
             numberOfWheel[0] = prevVal;
+            // 시계 방향으로 값을 계속해서 변경
             for (int i = 0; i < 7; i++) {
                 prevVal = numberOfWheel[i + 1];
                 numberOfWheel[i + 1] = curVal;
                 curVal = prevVal;
             }
-        } else {
+        }
+        // 반시계 방향
+        else {
+            // 이전 값(처음)과 현재 값(끝)을 미리 저장 후 변경
             int prevVal = numberOfWheel[0], curVal = numberOfWheel[7];
-            // 반시계 방향
             numberOfWheel[7] = prevVal;
+            // 시계 방향으로 값을 계속해서 변경
             for (int i = 7; i > 0; i--) {
                 prevVal = numberOfWheel[i - 1];
                 numberOfWheel[i - 1] = curVal;
@@ -161,10 +172,6 @@ public class BOJ_14891 {
     static int[][][] map = new int[4][3][3];
     static int[] dx = {1, 0, -1, 0};
     static int[] dy = {0, 1, 0, -1};
-    // 이전 좌표가 될 값
-    static int temp = map[0][1][0];
-    // 다음 좌표에 들어갈 값
-    static int temp2 = map[0][0][0];
     static int dir = 0, cnt = 0, idx = 0;
     private static void initMap() {
         for (int i = 0; i < map.length; i++) {
@@ -189,7 +196,6 @@ public class BOJ_14891 {
             ny = y + dy[dir];
             nx = x + dx[dir];
         }
-        // dfs 재귀
         mapDfs(z, ny, nx);
     }
 
