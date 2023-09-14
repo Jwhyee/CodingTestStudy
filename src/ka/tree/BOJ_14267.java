@@ -27,14 +27,11 @@ public class BOJ_14267 {
         // 회사 직원 수
         N = Integer.parseInt(st.nextToken());
 
-        // 그래프 초기화
-
         // 최초의 칭찬 횟수
         M = Integer.parseInt(st.nextToken());
 
         // 그래프 값 초기화
         st = new StringTokenizer(br.readLine());
-
         graph = new ArrayList[N + 1];
         for (int i = 1; i <= N; i++) {
             graph[i] = new ArrayList<>();
@@ -54,9 +51,13 @@ public class BOJ_14267 {
         dp = new int[N + 1];
         for (int i = 1; i <= M; i++) {
             st = new StringTokenizer(br.readLine());
+            // 상사로부터 칭찬을 받은 직원 번호
             int employee = Integer.parseInt(st.nextToken());
+
+            // 칭찬의 수치
             int cnt = Integer.parseInt(st.nextToken());
 
+            // 받은 칭찬 횟수를 누적 저장
             // 한 사원이 다른 상사에게도 칭찬 받을 수 있음
             dp[employee] += cnt;
         }
@@ -74,11 +75,11 @@ public class BOJ_14267 {
 
     }
 
-    private static void dfs(int employee) {
-        // 직속 상사가 employee인 부하 직원의 칭찬 횟수 구하기
-        for (Integer i : graph[employee]) {
-            dp[i] += dp[employee];
-            dfs(i);
+    private static void dfs(int boss) {
+        // 직속 상사가 데리고 있는 부하 직원의 칭찬 횟수 구하기
+        for (Integer employee : graph[boss]) {
+            dp[employee] += dp[boss];
+            dfs(employee);
         }
     }
 }
