@@ -58,7 +58,7 @@
      * 메모리: 77MB
      * 링크 : https://school.programmers.co.kr/learn/courses/30/lessons/120802
      * */
-    public class Main {
+    public class BOJ_3197_1 {
         
         public static int solution(int a, int b){
             return a + b;
