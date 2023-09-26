@@ -6,6 +6,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
+/**
+ * 문제 이름(난이도) : 사다리타기 (GOL5)
+ * 시간 : 88 ms
+ * 메모리 : 12584 KB
+ * 링크 : https://www.acmicpc.net/problem/2469
+ */
 public class BOJ_2469 {
     static int K, N, line = -1;
     static char[] player, result;
