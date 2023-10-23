@@ -4,6 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * 문제 이름(난이도) : 설탕 배달 (SIL4)
+ * 시간 : 76 ms
+ * 메모리 : 11500 KB
+ * 링크 : https://www.acmicpc.net/problem/2839
+ */
 public class BOJ_2839 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
