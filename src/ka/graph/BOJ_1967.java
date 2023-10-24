@@ -8,8 +8,8 @@ import java.util.StringTokenizer;
 
 /**
  * 문제 이름(난이도) : 트리의 지름 (SIL4)
- * 시간 : 3012 ms
- * 메모리 : 129188 KB
+ * 시간 : 1860 ms
+ * 메모리 : 124384 KB
  * 링크 : https://www.acmicpc.net/problem/1967
  */
 public class BOJ_1967 {
@@ -42,14 +42,15 @@ public class BOJ_1967 {
         int max = Integer.MIN_VALUE;
 
         for (int i = 1; i <= N; i++) {
-            // 최적화 요소 : 현재 노드의 자식 노드가 1개일 때만 -> 97%에서 실패 //
+            if (lists[i].size() == 1) {
+                // 방문 배열 초기화 후 최대값 탐색
+                visited = new boolean[N + 1];
+                max = Math.max(dfs(i), max);
+            }
 
-            // 방문 배열 초기화 후 최대값 탐색
-            visited = new boolean[N + 1];
-            max = Math.max(dfs(i), max);
         }
 
-        System.out.println(max);
+        System.out.println(max == Integer.MIN_VALUE ? 0 : max);
     }
 
     private static int dfs(int nodeNum) {
