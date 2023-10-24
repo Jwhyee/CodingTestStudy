@@ -8,13 +8,13 @@ import java.util.StringTokenizer;
 
 /**
  * 문제 이름(난이도) : 트리의 지름 (SIL4)
- * 시간 : 188 ms
- * 메모리 : 20840 KB
+ * 시간 : 176 ms
+ * 메모리 : 20760 KB
  * 링크 : https://www.acmicpc.net/problem/1967
  */
 public class BOJ_1967 {
     static int N, leafNode, result;
-    static ArrayList<Node>[] lists;
+    static ArrayList<int[]>[] lists;
     static boolean[] visited;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -34,8 +34,8 @@ public class BOJ_1967 {
             int child = Integer.parseInt(st.nextToken());
             int point = Integer.parseInt(st.nextToken());
 
-            lists[child].add(new Node(parent, point));
-            lists[parent].add(new Node(child, point));
+            lists[child].add(new int[]{parent, point});
+            lists[parent].add(new int[]{child, point});
         }
 
         visited = new boolean[N + 1];
@@ -43,9 +43,7 @@ public class BOJ_1967 {
         // 최대값 탐색
         dfs(1, 0);
 
-        for (int i = 0; i <= N; i++) {
-            visited[i] = false;
-        }
+        visited = new boolean[N + 1];
 
         dfs(leafNode, 0);
 
@@ -58,10 +56,10 @@ public class BOJ_1967 {
         // 노드 방문 처리
         visited[nodeNum] = true;
 
-        for (Node node : lists[nodeNum]) {
+        for (int[] node : lists[nodeNum]) {
             // 방문하지 않은 자식 노드 탐색
-            if (!visited[node.linked]) {
-                dfs(node.linked, sum + node.point);
+            if (!visited[node[0]]) {
+                dfs(node[0], sum + node[1]);
             }
         }
 
@@ -75,14 +73,14 @@ public class BOJ_1967 {
 
     }
 
-    private static class Node {
-        int linked, point;
-
-        public Node(int linked, int point) {
-            this.linked = linked;
-            this.point = point;
-        }
-    }
+//    private static class Node {
+//        int linked, point;
+//
+//        public Node(int linked, int point) {
+//            this.linked = linked;
+//            this.point = point;
+//        }
+//    }
 }
 
 /*
