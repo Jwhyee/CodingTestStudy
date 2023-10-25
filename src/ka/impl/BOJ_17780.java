@@ -8,129 +8,132 @@ import java.util.StringTokenizer;
 
 /**
  * 제목 : 새로운 게임 [골드2]
- * 시간 : . ms
- * 메모리 : . KB
+ * 시간 : 92 ms
+ * 메모리 : 11984 KB
  * 링크 : https://www.acmicpc.net/problem/17780
  */
 public class BOJ_17780 {
-    static int N, K, gameCnt = 0;
-    static int[][] map;
-    static Node[] players;
-    static LinkedList<Integer>[][] playerMap;
+    static final int WHITE = 0, RED = 1, BLUE = 2;
+    static final int[] change = { 1, 0, 3, 2 };
+    // →, ←, ↑, ↓
+    static final int[] dr = { 0, 0, -1, 1 };
+    static final int[] dc = { 1, -1, 0, 0 };
 
-    static int[] dx = {1, -1, 0, 0}, dy = {0, 0, -1, 0};
-    static int[] reverseDir = {1, 0, 3, 2};
+    static int N, K;
+    static int[][] map;
+    static LinkedList<Integer>[][] state;
+    static Horse[] horses;
+
+    static class Horse {
+        int r, c, dir;
+
+        Horse(int r, int c, int dir) {
+            this.r = r;
+            this.c = c;
+            this.dir = dir;
+        }
+    }
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
+
         N = Integer.parseInt(st.nextToken());
         K = Integer.parseInt(st.nextToken());
 
         map = new int[N][N];
-        players = new Node[K];
-        playerMap = new LinkedList[N][N];
+        state = new LinkedList[N][N];
 
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < N; j++) {
                 map[i][j] = Integer.parseInt(st.nextToken());
-                playerMap[i][j] = new LinkedList<>();
+                state[i][j] = new LinkedList<>();
             }
         }
 
-        for (int i = 0; i < K; i++) {
+        // 말의 정보
+        horses = new Horse[K + 1]; // 1 ~ K번 말
+        for (int i = 1; i <= K; i++) {
             st = new StringTokenizer(br.readLine());
-            int y = Integer.parseInt(st.nextToken()) - 1;
-            int x = Integer.parseInt(st.nextToken()) - 1;
-            // 1 :동 / 2 : 서 / 3 : 북 / 4 : 남
+            int r = Integer.parseInt(st.nextToken()) - 1;
+            int c = Integer.parseInt(st.nextToken()) - 1;
             int dir = Integer.parseInt(st.nextToken()) - 1;
-            players[i] = new Node(x, y, dir);
-            playerMap[y][x].add(i);
+            horses[i] = new Horse(r, c, dir);
+            state[r][c].add(i);
         }
 
-        System.out.println(move());
+        System.out.println(start());
 
     }
 
-    private static int move() {
+    private static int start() {
         boolean flag = true;
-
+        int times = 0;
         while (flag) {
-            gameCnt++;
-            if (gameCnt > 1000) break;
+            times++;
+            if (times > 1000)
+                break;
 
-            int i = 0;
-            for (Node player : players) {
-                int x = player.x;
-                int y = player.y;
+            for (int i = 1; i <= K; i++) {
+                Horse h = horses[i];
+                int r = h.r;
+                int c = h.c;
 
-                // 현재 말이 가장 밑에 있지 않으면 다음 말 탐색
-                if (playerMap[y][x].get(0) != i++) continue;
+                // 가장 아래쪽 말이 아니라면 PASS
+                if (state[r][c].get(0) != i)
+                    continue;
 
-                int nx = x + dx[player.dir];
-                int ny = y + dy[player.dir];
+                int nr = r + dr[h.dir];
+                int nc = c + dc[h.dir];
 
-                // 다음 칸이 파란색이거나 체스판을 벗어나려는 경우
-                // - A번 말의 이동 방향을 반대로 한다.
-                if (!isPossible(nx, ny) || map[ny][nx] == 2) {
-                    // 방향 반전
-                    player.dir = reverseDir[player.dir];
-                    nx = x + dx[player.dir];
-                    ny = y + dy[player.dir];
-
+                // 말이 이동하려는 칸이 파란색인 경우 + 체스판을 벗어나는 경우
+                if (!isRange(nr, nc) || map[nr][nc] == BLUE) {
+                    // 방향 반대로
+                    h.dir = change[h.dir];
+                    nr = r + dr[h.dir];
+                    nc = c + dc[h.dir];
                 }
 
-                // 만약 반대 방향으로 이동하려는 칸이 파란색 혹은 체스판 밖일 경우 이동하지 않고 방향만 바꾼다.
-                if (!isPossible(nx, ny) || map[ny][nx] == 2) {
+                // 방향을 반대로 한 후에 이동하려는 칸이 파란색인 경우
+                if (!isRange(nr, nc) || map[nr][nc] == BLUE) {
                     continue;
                 }
-                // 다음 칸이 빨간색인 경우
-                else if (map[ny][nx] == 1) {
-                    // - 이동할 칸(next)에 말이 없을 경우 현재 말 탑의 순서를 바꾼다 -> A, B, C -> C, B, A
-                    // - 이동할 칸(next)에 말이 있을 경우 현재 말 탑의 순서를 바꾼다 -> A, B, C -> D, H, C, B, A
-                    for (int j = playerMap[y][x].size() - 1; j >= 0; j--) {
-                        int temp = playerMap[y][x].get(j);
-                        playerMap[ny][nx].add(temp);
-                        players[temp].x = nx;
-                        players[temp].y = ny;
+                // 말이 이동하려는 칸이 빨간색인 경우
+                else if (map[nr][nc] == RED) {
+                    // 순서를 반대로 모든 말이 이동
+                    for (int j = state[r][c].size() - 1; j >= 0; j--) {
+                        int tmp = state[r][c].get(j);
+                        state[nr][nc].add(tmp);
+                        horses[tmp].r = nr;
+                        horses[tmp].c = nc;
                     }
-                    // 현재 위치의 말 탑 초기화
-                    playerMap[y][x].clear();
+                    state[r][c].clear();
                 }
-                // 다음 칸이 흰색인 경우
+                // 말이 이동하려는 칸이 흰색인 경우
                 else {
-                    // - 이동할 칸(next)에 말이 있을 경우 현재 말들을 next 말 위에 올린다.
-                    for (int j = 0; j < playerMap[y][x].size(); j++) {
-                        int temp = playerMap[y][x].get(j);
-                        playerMap[ny][nx].add(temp);
-                        players[temp].x = nx;
-                        players[temp].y = ny;
+                    // 모든 말이 이동
+                    for (int j = 0; j < state[r][c].size(); j++) {
+                        int tmp = state[r][c].get(j);
+                        state[nr][nc].add(tmp);
+                        horses[tmp].r = nr;
+                        horses[tmp].c = nc;
                     }
-                    playerMap[y][x].clear();
+                    state[r][c].clear();
                 }
 
-                if (playerMap[ny][nx].size() >= 4) {
+                // 이동한 곳에 말이 4개 이상 있는가?
+                if (state[nr][nc].size() >= 4) {
                     flag = false;
                     break;
                 }
             }
         }
-        return flag ? -1 : gameCnt;
+        return flag ? -1 : times;
     }
 
-    private static boolean isPossible(int x, int y) {
-        return y >= 0 && y < N && x >= 0 && x < N;
-    }
-
-    static class Node {
-        int x, y, dir;
-
-        public Node(int x, int y, int dir) {
-            this.x = x;
-            this.y = y;
-            this.dir = dir;
-        }
+    static boolean isRange(int r, int c) {
+        return 0 <= r && r < N && 0 <= c && c < N;
     }
 }
