@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 /**
  * 문제 이름(난이도) : 트리의 지름 (SIL4)
  * 시간 : 176 ms
- * 메모리 : 20760 KB
+ * 메모리 : 20624 KB
  * 링크 : https://www.acmicpc.net/problem/1967
  */
 public class BOJ_1967 {
