@@ -1,4 +1,4 @@
-package ka.bfs;
+package ka.back_tracking;
 
 import java.io.BufferedReader;
 import java.io.IOException;
