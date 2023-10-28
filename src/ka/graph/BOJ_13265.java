@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 /**
- * 문제 이름(난이도) : 로또 (GOL5)
+ * 문제 이름(난이도) : 색칠하기 (GOL5)
  * 시간 : 632 ms
  * 메모리 : 143340 KB
  * 링크 : https://www.acmicpc.net/problem/13265
