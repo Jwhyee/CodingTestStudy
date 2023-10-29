@@ -3,7 +3,6 @@ package ka.back_tracking;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 
 public class BOJ_2023 {
     static int n;
