@@ -37,8 +37,8 @@ public class BOJ_1189 {
     }
 
     private static void dfs(int y, int x, int cnt) {
-        if (cnt == K && y == 0 && x == W - 1) {
-            result++;
+        if (cnt == K) {
+            if(y == 0 && x == W - 1) result++;
             return;
         }
 
