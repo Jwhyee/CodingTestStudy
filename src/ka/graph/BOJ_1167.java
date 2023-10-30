@@ -8,20 +8,20 @@ import java.util.StringTokenizer;
 
 /**
  * 문제 이름(난이도) : 트리의 지름 (GOL2)
- * 시간 : 772 ms
- * 메모리 : 96928 KB
+ * 시간 : 760 ms
+ * 메모리 : 94032 KB
  * 링크 : https://www.acmicpc.net/problem/1167
  */
 public class BOJ_1167 {
     static ArrayList<Node>[] graph;
     static boolean[] visited;
-    static int C, max, leaf;
+    static int max, leaf;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int T = Integer.parseInt(br.readLine());
-        C = T;
 
+        // 그래프 및 방문 배열 초기화
         graph = new ArrayList[T + 1];
         visited = new boolean[T + 1];
 
@@ -29,6 +29,7 @@ public class BOJ_1167 {
             graph[i] = new ArrayList<>();
         }
 
+        // 부모 및 자식 노드 연결
         while (T-- > 0) {
             StringTokenizer st = new StringTokenizer(br.readLine());
             int parent = Integer.parseInt(st.nextToken());
@@ -38,26 +39,34 @@ public class BOJ_1167 {
                 graph[parent].add(new Node(child, point));
             }
         }
+        // 길이가 가장 긴 리프 노드 탐색
         dfs(1, 0);
 
-
+        // 방문 배열 및 최대값 초기화
         visited = new boolean[visited.length];
         max = 0;
+
+        // 길이가 가장 긴 리프 노드부터 탐색 시작
         dfs(leaf, 0);
 
+        // 최대값 출력
         System.out.println(max);
     }
 
     private static void dfs(int cur, int point) {
+        // 현재 노드 방문 처리
         visited[cur] = true;
 
+        // 현재 노드와 이어진 노드를 탐색
         for (int i = 0; i < graph[cur].size(); i++) {
             Node node = graph[cur].get(i);
+            // 방문하지 않은 노드라면 탐색 진행
             if (!visited[node.num]) {
                 dfs(node.num, point + node.point);
             }
         }
 
+        // 탐색의 끝(리프 노드)일 경우 최대값 비교
         if (max < point) {
             leaf = cur;
             max = point;
@@ -72,12 +81,5 @@ public class BOJ_1167 {
             this.point = point;
         }
 
-        @Override
-        public String toString() {
-            return "Node{" +
-                    "num=" + num +
-                    ", point=" + point +
-                    '}';
-        }
     }
 }
