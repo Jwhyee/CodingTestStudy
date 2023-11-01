@@ -21,20 +21,21 @@ public class BOJ_1987 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
+        // R, C 입력 받기
         H = Integer.parseInt(st.nextToken());
         W = Integer.parseInt(st.nextToken());
 
+        // 지도 배열 초기화
         map = new char[H][W];
-
-        // 알파벳 개수
-        visited = new boolean[26];
-
         for (int y = 0; y < H; y++) {
             char[] charArray = br.readLine().toCharArray();
             for (int x = 0; x < W; x++) {
                 map[y][x] = charArray[x];
             }
         }
+
+        // 알파벳 배열 초기화(26 = 알파벳 개수)
+        visited = new boolean[26];
 
         backTracking(0, 0, 1);
 
@@ -43,6 +44,7 @@ public class BOJ_1987 {
     }
 
     private static void backTracking(int x, int y, int cnt) {
+        // 현재 알파벳 방문 처리
         visited[map[y][x] - ALPHA_A] = true;
 
         boolean isPossible = false;
@@ -50,8 +52,10 @@ public class BOJ_1987 {
             int nx = x + dx[i];
             int ny = y + dy[i];
 
+            // 다음 칸으로 이동이 가능하고, 방문하지 않았을 경우
             if (nx >= 0 && ny >= 0 && nx < W && ny < H) {
                 if (!visited[map[ny][nx] - ALPHA_A]) {
+                    // 다음 칸으로 방문 후 다시 방문 해제 처리
                     isPossible = true;
                     backTracking(nx, ny, cnt + 1);
                     visited[map[ny][nx] - ALPHA_A] = false;
@@ -60,6 +64,7 @@ public class BOJ_1987 {
             }
         }
 
+        // 현재 칸에서 어떤 곳으로도 이동할 수 없을 경우 최대값 갱신
         if (!isPossible) {
             max = Math.max(max, cnt);
         }
