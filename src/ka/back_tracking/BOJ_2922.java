@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * 문제 이름(난이도) : 새로운 단어(GOL5)
+ * 문제 이름(난이도) : 즐거운 단어(GOL5)
  * 시간 : . ms
  * 메모리 : . KB
  * 링크 : https://www.acmicpc.net/problem/2922

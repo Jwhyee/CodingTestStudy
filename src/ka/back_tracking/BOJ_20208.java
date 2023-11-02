@@ -67,6 +67,7 @@ public class BOJ_20208 {
      * */
     private static void backTracking(int depth, int prevX, int prevY,
                                      int cnt, int curHp) {
+
         int distance = getDistance(homeNode.x, prevX, homeNode.y, prevY);
 
         // 현재 위치에서 집까지 돌아갈 수 있다면 최대값 갱신
